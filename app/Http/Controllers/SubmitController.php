@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rules;
+use App\Models\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
@@ -31,8 +33,28 @@ class SubmitController extends Controller
 
         $response->setStatusCode(400);
         return $response;
+    }
 
-
+    public function submitRules(Request $request)
+    {
+        $payload = json_decode($request->getContent(),true);
+        $upload = new Upload();
+        $upload->expires_at = $payload['expires_at'];
+        $upload->file_path = "public/tmp/asasa";
+        $upload->save();
+        foreach($payload['rules'] as $incRule)
+        {
+            $rule = new Rules();
+            $rule->authority = $incRule['authority'];
+            $rule->attributes = json_encode($incRule['attributes']);
+            $rule->verified = 0;
+            $rule->uploadId = $upload->id;
+            $rule->save();
+        }
+        $response = new Response();
+        $response->setStatusCode(200);
+        $response->setContent($upload->id);
+        return $response;
     }
 
     public function publicKey(Request $request)

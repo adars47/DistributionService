@@ -9,10 +9,12 @@ class Upload extends Model
 {
     use HasFactory;
 
-    public $id;
+    protected $fillable = [
+        'file_path',
+        'expires_at'
+    ];
 
-    public $filepath;
-
-    public $expiresAt;
-
+    protected $guarded =[
+        'file_path'
+    ];
 }

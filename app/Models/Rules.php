@@ -9,10 +9,10 @@ class Rules extends Model
 {
     use HasFactory;
     public $timestamps = false;
-
-    public $id;
-    public $uploadId;
-    public $attribute;
-    public $authority;
-    public $satisfied;
+    protected $fillable = [
+        'upload_id',
+        'attributes',
+        'authority',
+        'verified'
+    ];
 }
