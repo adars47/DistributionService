@@ -7,6 +7,7 @@ use App\Models\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class SubmitController extends Controller
 {
@@ -57,6 +58,26 @@ class SubmitController extends Controller
         return $response;
     }
 
+    public function uploadFiles(Request $request,$uploadId)
+    {
+        $upload = Upload::find($uploadId);
+        $response = new Response();
+        if($upload === null )
+        {
+            $response->setStatusCode(400);
+            $response->setContent("Something went wrong, Invalid order ID");
+            return $response;
+        }
+        foreach($request->files as $file)
+        {
+            $originalName = $file->getClientOriginalName();
+            $path = $upload->file_path."/".$originalName;
+            Storage::disk('local')->put($path, file_get_contents($file));
+        }
+
+        $response->setStatusCode(200);
+        return $response;
+    }
     public function publicKey(Request $request)
     {
         $response = new Response();

@@ -21,5 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/verify', 'App\Http\Controllers\SubmitController@verify');
 Route::get('/publicKey', 'App\Http\Controllers\SubmitController@publicKey');
-Route::post('/uploadFile', 'App\Http\Controllers\SubmitController@post');
+Route::post('/uploadFiles/{uploadId}', 'App\Http\Controllers\SubmitController@uploadFiles');
 Route::post('/submitRules', 'App\Http\Controllers\SubmitController@submitRules');
