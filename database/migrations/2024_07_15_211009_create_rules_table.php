@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('upload_id');
             $table->string('authority');
+            $table->string('granted_to')->nullable();
             $table->tinyInteger('verified')->default(0);
             $table->json("attributes");
             $table->timestamps();

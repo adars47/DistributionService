@@ -23,3 +23,7 @@ Route::post('/verify', 'App\Http\Controllers\SubmitController@verify');
 Route::get('/publicKey', 'App\Http\Controllers\SubmitController@publicKey');
 Route::post('/uploadFiles/{uploadId}', 'App\Http\Controllers\SubmitController@uploadFiles');
 Route::post('/submitRules', 'App\Http\Controllers\SubmitController@submitRules');
+Route::get('/getRules/{uploadId}', 'App\Http\Controllers\VerificationController@getRules');
+Route::post('/satisfy/{ruleId}', 'App\Http\Controllers\VerificationController@satisfy');
+Route::get('/release/{uploadId}', 'App\Http\Controllers\VerificationController@release');
+

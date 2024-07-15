@@ -13,6 +13,7 @@ class Rules extends Model
         'upload_id',
         'attributes',
         'authority',
+        'granted_to',
         'verified'
     ];
 }
