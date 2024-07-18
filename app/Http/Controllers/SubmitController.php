@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SubmitController extends Controller
 {
@@ -41,7 +42,7 @@ class SubmitController extends Controller
         $payload = json_decode($request->getContent(),true);
         $upload = new Upload();
         $upload->expires_at = $payload['expires_at'];
-        $upload->file_path = "public/tmp/asasa";
+        $upload->file_path = "tmp/".Str::uuid();
         $upload->save();
         foreach($payload['rules'] as $incRule)
         {
