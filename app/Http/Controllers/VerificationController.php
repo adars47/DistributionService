@@ -19,6 +19,8 @@ class verificationController extends Controller
             $response->setContent("Upload Not found");
             return $response;
         }
+        // @todo  check if valid until time is not crossed before sending back, maybe update the query
+
 
         $response->setStatusCode(200);
         $response->setContent(json_encode($rules));
@@ -53,7 +55,7 @@ class verificationController extends Controller
             return $response;
         }
 
-        // @todo  this should be a json with files or send multiple files here
+        // @todo  check if valid until time is not crossed
         if($content['payload']['validUntil'])
         {
 
