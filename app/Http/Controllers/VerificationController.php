@@ -20,22 +20,37 @@ class verificationController extends Controller
             return $response;
         }
         // @todo  check if valid until time is not crossed before sending back, maybe update the query
-
-
         $response->setStatusCode(200);
         $response->setContent(json_encode($rules));
         return $response;
     }
 
-    public function satisfy($ruleId,Request $request){
-        $rule = Rules::query()->find($ruleId);
+    public function satisfy($uploadId,Request $request){
+        $upload = Upload::query()->find($uploadId);
         $response = new JsonResponse();
-        if($rule === null)
+        if($upload === null)
         {
             $response->setStatusCode(404);
             $response->setContent("Rule not found");
             return $response;
         }
+
+        $content = json_decode($request->getContent(),true);
+        date_default_timezone_set("Europe/London");
+
+        if($upload->expires_at<date("Y-m-d H:i:s"))
+        {
+            $response->setStatusCode(400);
+            $response->setContent("Share period expired");
+            return $response;
+        }
+
+        var_dump("Share period valid");die;
+        if($upload)
+        {
+
+        }
+
 
         $apiResponse = Http::get($rule->authority.'/api/publicKey');
         if($apiResponse->status()!=200)
@@ -45,7 +60,6 @@ class verificationController extends Controller
             return $response;
         }
 
-        $content = json_decode($request->getContent(),true);
         $publicKey = $apiResponse->body();
         $result = openssl_verify($content['payload'], base64_decode($content['signature']), $publicKey, OPENSSL_ALGO_SHA256);
         if($result === 0)
@@ -55,11 +69,7 @@ class verificationController extends Controller
             return $response;
         }
 
-        // @todo  check if valid until time is not crossed
-        if($content['payload']['validUntil'])
-        {
 
-        }
 
         $required_attribute = json_decode($rule->attributes,true);
         foreach($required_attribute as $attribute)
