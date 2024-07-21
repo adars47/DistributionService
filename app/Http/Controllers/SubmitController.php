@@ -50,7 +50,7 @@ class SubmitController extends Controller
             $rule->authority = $incRule['authority'];
             $rule->attributes = json_encode($incRule['attributes']);
             $rule->verified = 0;
-            $rule->uploadId = $upload->id;
+            $rule->upload_id = $upload->id;
             $rule->save();
         }
         $response = new Response();
