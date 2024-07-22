@@ -15,7 +15,7 @@ class verificationController extends Controller
 {
     public function getRules($uploadId)
     {
-        $rules = Rules::query()->where('uploadId', $uploadId)->get()->all();
+        $rules = Rules::query()->where('upload_id', $uploadId)->get()->all();
         $response = new JsonResponse();
         if (empty($rules)) {
             $response->setStatusCode(404);
