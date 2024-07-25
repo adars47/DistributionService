@@ -119,14 +119,11 @@ class verificationController extends Controller
         $zipFileName = $storagePath . '/' . $timeName . '.zip';
         $filesArr = Storage::disk('local')->files($filepath);
 
-//var_dump($zipFileName);die;
         if ($zip->open(($zipFileName), ZipArchive::CREATE) === true) {
             foreach ($filesArr as $relativeName) {
                 $filepath = storage_path() . "/app/" . $relativeName;
-//		var_dump($filepath);
                 $zip->addFile($filepath, basename($relativeName));
             }
-//		die;
             $zip->close();
 
             if ($zip->open($zipFileName) === true) {

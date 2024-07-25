@@ -69,15 +69,12 @@ class SubmitController extends Controller
             $response->setContent("Something went wrong, Invalid order ID");
             return $response;
         }
-//	var_dump($upload->file_path);die;
         foreach($request->files as $file)
         {
             $originalName = $file->getClientOriginalName();
             $path = $upload->file_path."/".$originalName;
-//	    var_dump($path);
             Storage::disk('local')->put($path, file_get_contents($file));
         }
-//die;
 
         $response->setStatusCode(200);
         return $response;
