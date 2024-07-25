@@ -104,7 +104,7 @@ class verificationController extends Controller
         if ($filename === null) {
             return response('File not found', 404,);
         }
-        $path = storage_path() . "/tmp/download/" . $filename;
+        $path = storage_path() . "/app/tmp/download/" . $filename;
         register_shutdown_function(function () use ($path) {
             unlink($path);
         });
@@ -114,16 +114,19 @@ class verificationController extends Controller
     private function zipFolder($filepath)
     {
         $zip = new ZipArchive();
-        $storagePath = storage_path() . "/tmp/download";
+        $storagePath = storage_path() . "/app/tmp/download";
         $timeName = time();
         $zipFileName = $storagePath . '/' . $timeName . '.zip';
         $filesArr = Storage::disk('local')->files($filepath);
 
+//var_dump($zipFileName);die;
         if ($zip->open(($zipFileName), ZipArchive::CREATE) === true) {
             foreach ($filesArr as $relativeName) {
                 $filepath = storage_path() . "/app/" . $relativeName;
+//		var_dump($filepath);
                 $zip->addFile($filepath, basename($relativeName));
             }
+//		die;
             $zip->close();
 
             if ($zip->open($zipFileName) === true) {
