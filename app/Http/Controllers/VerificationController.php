@@ -47,7 +47,7 @@ class verificationController extends Controller
             return $response;
         }
 
-        $rules = Rules::query()->where('uploadId', $uploadId)->get()->all();
+        $rules = Rules::query()->where('upload_id', $uploadId)->get()->all();
 
         if (empty($rules)) {
             $response->setStatusCode(500);
@@ -168,7 +168,7 @@ class verificationController extends Controller
             $response->setContent("Upload not found");
             return $response;
         }
-        $rules = Rules::query()->where('uploadId', $uploadId)->get()->all();
+        $rules = Rules::query()->where('upload_id', $uploadId)->get()->all();
 
         foreach ($rules as $rule) {
             if ($rule->verified != 1) {
